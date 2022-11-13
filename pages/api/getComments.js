@@ -7,6 +7,8 @@ export default async function handler(req, res) {
   params.append("client_id", `${process.env.CLIENT_ID}`);
   params.append("client_secret", `${process.env.CLIENT_SECRET}`);
 
+  const url = `https://api.bitbucket.org/2.0/repositories/${process.env.WORKSPACE}/${process.env.REPOSITORY}/pullrequests/${req.body.id}/comments`;
+
   const proxyAgent = new HttpsProxyAgent(`${process.env.PROXY}`);
   const response = await fetch(
     "https://bitbucket.org/site/oauth2/access_token",
@@ -20,7 +22,7 @@ export default async function handler(req, res) {
   const data = await response.json();
   const token = data["access_token"];
 
-  const commentsInfo = await fetch(`${req.body.url}`, {
+  const commentsInfo = await fetch(url, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -30,5 +32,6 @@ export default async function handler(req, res) {
   });
 
   const comments = await commentsInfo.json();
+  console.log(comments);
   res.status(200).json({ comments });
 }
