@@ -10,8 +10,14 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import { Link } from "@mui/material";
+import { useRouter } from "next/router";
+import en from "../locales/en";
+import ja from "../locales/ja";
 
 export default function Home() {
+  let { locale } = useRouter();
+  let t = locale === "en" ? en : ja;
+
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.info.main,
@@ -53,7 +59,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={styles.container} sx={{ mt: 100 }}>
+    <div className={styles.container}>
       <main className={styles.table}>
         <TableContainer
           component={Paper}
@@ -62,23 +68,29 @@ export default function Home() {
           <Table>
             <TableHead>
               <StyledTableRow>
-                <StyledTableCell>タイトル</StyledTableCell>
-                <StyledTableCell>作成者</StyledTableCell>
-                <StyledTableCell>ステータス</StyledTableCell>
-                <StyledTableCell>コメント</StyledTableCell>
-                <StyledTableCell>タスク</StyledTableCell>
+                <StyledTableCell>{t.TITLE}</StyledTableCell>
+                <StyledTableCell>{t.AUTHOR}</StyledTableCell>
+                <StyledTableCell>{t.STATUS}</StyledTableCell>
+                <StyledTableCell>{t.COMMENT}</StyledTableCell>
+                <StyledTableCell>{t.TASK}</StyledTableCell>
               </StyledTableRow>
             </TableHead>
             <TableBody>
               {pullRequest.map((row) => (
                 <StyledTableRow key={row.id}>
                   <StyledTableCell onClick={() => getComments(row.id)}>
-                    {row.title}
+                    <Link underline="hover">{row.title}</Link>
                   </StyledTableCell>
                   <StyledTableCell>{row.author.display_name}</StyledTableCell>
                   <StyledTableCell>{row.state}</StyledTableCell>
-                  <StyledTableCell>{row.comment_count}件</StyledTableCell>
-                  <StyledTableCell>{row.task_count}件</StyledTableCell>
+                  <StyledTableCell>
+                    {row.comment_count}
+                    {t.COUNT}
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    {row.task_count}
+                    {t.COUNT}
+                  </StyledTableCell>
                 </StyledTableRow>
               ))}
             </TableBody>
@@ -93,10 +105,10 @@ export default function Home() {
           <Table>
             <TableHead>
               <StyledTableRow>
-                <StyledTableCell>ユーザ</StyledTableCell>
-                <StyledTableCell>コメント</StyledTableCell>
-                <StyledTableCell>リンク</StyledTableCell>
-                <StyledTableCell>コメント日時</StyledTableCell>
+                <StyledTableCell>{t.USER}</StyledTableCell>
+                <StyledTableCell>{t.COMMENT}</StyledTableCell>
+                <StyledTableCell>{t.LINK}</StyledTableCell>
+                <StyledTableCell>{t.CREATE}</StyledTableCell>
               </StyledTableRow>
             </TableHead>
             <TableBody>
@@ -105,7 +117,12 @@ export default function Home() {
                   <StyledTableCell>{row.user.display_name}</StyledTableCell>
                   <StyledTableCell>{row.content.raw}</StyledTableCell>
                   <StyledTableCell>
-                    <Link href={row.links.html.href} underline="hover">
+                    <Link
+                      href={row.links.html.href}
+                      underline="hover"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       {row.links.html.href}
                     </Link>
                   </StyledTableCell>
