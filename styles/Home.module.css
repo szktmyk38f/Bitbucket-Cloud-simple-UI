@@ -13,6 +13,12 @@
   align-items: center;
 }
 
+.loading {
+  display: flex;
+  justify-content: center;
+  margin-top: 350px;
+}
+
 .table {
   min-height: 0vh;
   padding: 4rem 0;

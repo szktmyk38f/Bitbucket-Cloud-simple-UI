@@ -7,5 +7,5 @@ export default {
   COUNT: "件",
   USER: "ユーザー",
   LINK: "リンク",
-  CREATE: "コメント日時",
+  CREATE: "日時",
 };

@@ -13,6 +13,7 @@ import { Link } from "@mui/material";
 import { useRouter } from "next/router";
 import en from "../locales/en";
 import ja from "../locales/ja";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function Home() {
   let { locale } = useRouter();
@@ -40,6 +41,7 @@ export default function Home() {
 
   const [pullRequest, setPullRequest] = useState([]);
   const [comment, setComment] = useState([]);
+  const [loading, setLoading] = useState([]);
 
   const getComments = async (id) => {
     var params = new URLSearchParams();
@@ -52,87 +54,104 @@ export default function Home() {
     var params = new URLSearchParams();
     const response = await axios.post("/api/getPullRequest", params);
     setPullRequest(response.data.pullRequests.values);
+    setLoading(false);
   }
 
   useEffect(() => {
     getPullRequest();
   }, []);
 
-  return (
-    <div className={styles.container}>
-      <main className={styles.table}>
-        <TableContainer
-          component={Paper}
-          sx={{ minWidth: 650, maxWidth: 1500, alignSelf: "center" }}
-        >
-          <Table>
-            <TableHead>
-              <StyledTableRow>
-                <StyledTableCell>{t.TITLE}</StyledTableCell>
-                <StyledTableCell>{t.AUTHOR}</StyledTableCell>
-                <StyledTableCell>{t.STATUS}</StyledTableCell>
-                <StyledTableCell>{t.COMMENT}</StyledTableCell>
-                <StyledTableCell>{t.TASK}</StyledTableCell>
-              </StyledTableRow>
-            </TableHead>
-            <TableBody>
-              {pullRequest.map((row) => (
-                <StyledTableRow key={row.id}>
-                  <StyledTableCell onClick={() => getComments(row.id)}>
-                    <Link underline="hover">{row.title}</Link>
-                  </StyledTableCell>
-                  <StyledTableCell>{row.author.display_name}</StyledTableCell>
-                  <StyledTableCell>{row.state}</StyledTableCell>
-                  <StyledTableCell>
-                    {row.comment_count}
-                    {t.COUNT}
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    {row.task_count}
-                    {t.COUNT}
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+  if (loading) {
+    return (
+      <main className={styles.loading}>
+        <ThreeDots
+          height="100"
+          width="100"
+          radius="9"
+          color="#2196f3"
+          ariaLabel="three-dots-loading"
+        />
       </main>
-      <main className={styles.table}>
-        <TableContainer
-          component={Paper}
-          sx={{ minWidth: 650, maxWidth: 1500, alignSelf: "center" }}
-        >
-          <Table>
-            <TableHead>
-              <StyledTableRow>
-                <StyledTableCell>{t.USER}</StyledTableCell>
-                <StyledTableCell>{t.COMMENT}</StyledTableCell>
-                <StyledTableCell>{t.LINK}</StyledTableCell>
-                <StyledTableCell>{t.CREATE}</StyledTableCell>
-              </StyledTableRow>
-            </TableHead>
-            <TableBody>
-              {comment.map((row) => (
-                <StyledTableRow key={row.id}>
-                  <StyledTableCell>{row.user.display_name}</StyledTableCell>
-                  <StyledTableCell>{row.content.raw}</StyledTableCell>
-                  <StyledTableCell>
-                    <Link
-                      href={row.links.html.href}
-                      underline="hover"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {row.links.html.href}
-                    </Link>
-                  </StyledTableCell>
-                  <StyledTableCell>{row.created_on}</StyledTableCell>
+    );
+  } else {
+    return (
+      <div className={styles.container}>
+        <main className={styles.table}>
+          <TableContainer
+            component={Paper}
+            sx={{ minWidth: 650, maxWidth: 1500, alignSelf: "center" }}
+          >
+            <Table>
+              <TableHead>
+                <StyledTableRow>
+                  <StyledTableCell>{t.TITLE}</StyledTableCell>
+                  <StyledTableCell>{t.AUTHOR}</StyledTableCell>
+                  <StyledTableCell>{t.STATUS}</StyledTableCell>
+                  <StyledTableCell>{t.COMMENT}</StyledTableCell>
+                  <StyledTableCell>{t.TASK}</StyledTableCell>
+                  <StyledTableCell>{t.CREATE}</StyledTableCell>
                 </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </main>
-    </div>
-  );
+              </TableHead>
+              <TableBody>
+                {pullRequest.map((row) => (
+                  <StyledTableRow key={row.id}>
+                    <StyledTableCell onClick={() => getComments(row.id)}>
+                      <Link underline="hover">{row.title}</Link>
+                    </StyledTableCell>
+                    <StyledTableCell>{row.author.display_name}</StyledTableCell>
+                    <StyledTableCell>{row.state}</StyledTableCell>
+                    <StyledTableCell>
+                      {row.comment_count}
+                      {t.COUNT}
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      {row.task_count}
+                      {t.COUNT}
+                    </StyledTableCell>
+                    <StyledTableCell>{row.created_on}</StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </main>
+        <main className={styles.table}>
+          <TableContainer
+            component={Paper}
+            sx={{ minWidth: 650, maxWidth: 1500, alignSelf: "center" }}
+          >
+            <Table>
+              <TableHead>
+                <StyledTableRow>
+                  <StyledTableCell>{t.USER}</StyledTableCell>
+                  <StyledTableCell>{t.COMMENT}</StyledTableCell>
+                  <StyledTableCell>{t.LINK}</StyledTableCell>
+                  <StyledTableCell>{t.CREATE}</StyledTableCell>
+                </StyledTableRow>
+              </TableHead>
+              <TableBody>
+                {comment.map((row) => (
+                  <StyledTableRow key={row.id}>
+                    <StyledTableCell>{row.user.display_name}</StyledTableCell>
+                    <StyledTableCell>{row.content.raw}</StyledTableCell>
+                    <StyledTableCell>
+                      <Link
+                        href={row.links.html.href}
+                        underline="hover"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {row.links.html.href}
+                      </Link>
+                    </StyledTableCell>
+                    <StyledTableCell>{row.created_on}</StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </main>
+      </div>
+    );
+  }
 }

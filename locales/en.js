@@ -7,5 +7,5 @@ export default {
   COUNT: "cases",
   USER: "User",
   LINK: "Link",
-  CREATE: "Comment Date",
+  CREATE: "Date",
 };
