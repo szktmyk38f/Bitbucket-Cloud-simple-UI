@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  next:
+    build:
+      context: .
+    container_name: next
+    volumes:
+      - .:/app
+    ports:
+      - 4000:4000
