@@ -32,6 +32,5 @@ export default async function handler(req, res) {
   });
 
   const comments = await commentsInfo.json();
-  console.log(comments);
   res.status(200).json({ comments });
 }

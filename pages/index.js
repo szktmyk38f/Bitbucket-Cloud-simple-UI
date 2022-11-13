@@ -1,16 +1,37 @@
 import styles from "../styles/Home.module.css";
-import Button from "@mui/material/Button";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
+import { Link } from "@mui/material";
 
 export default function Home() {
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.info.main,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+      border: 0,
+    },
+  }));
+
   const [pullRequest, setPullRequest] = useState([]);
   const [comment, setComment] = useState([]);
 
@@ -24,60 +45,72 @@ export default function Home() {
   async function getPullRequest() {
     var params = new URLSearchParams();
     const response = await axios.post("/api/getPullRequest", params);
-    console.log(response.data.pullRequests.values);
     setPullRequest(response.data.pullRequests.values);
   }
 
+  useEffect(() => {
+    getPullRequest();
+  }, []);
+
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <div>
-          <Button onClick={getPullRequest}>TEST BUTTON</Button>
-        </div>
-      </main>
+    <div className={styles.container} sx={{ mt: 100 }}>
       <main className={styles.table}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }}>
+        <TableContainer
+          component={Paper}
+          sx={{ minWidth: 650, maxWidth: 1500, alignSelf: "center" }}
+        >
+          <Table>
             <TableHead>
-              <TableRow>
-                <TableCell>タイトル</TableCell>
-                <TableCell>作成者</TableCell>
-                <TableCell>ステータス</TableCell>
-                <TableCell>コメント</TableCell>
-                <TableCell>タスク</TableCell>
-              </TableRow>
+              <StyledTableRow>
+                <StyledTableCell>タイトル</StyledTableCell>
+                <StyledTableCell>作成者</StyledTableCell>
+                <StyledTableCell>ステータス</StyledTableCell>
+                <StyledTableCell>コメント</StyledTableCell>
+                <StyledTableCell>タスク</StyledTableCell>
+              </StyledTableRow>
             </TableHead>
             <TableBody>
               {pullRequest.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell onClick={() => getComments(row.id)}>
+                <StyledTableRow key={row.id}>
+                  <StyledTableCell onClick={() => getComments(row.id)}>
                     {row.title}
-                  </TableCell>
-                  <TableCell>{row.author.display_name}</TableCell>
-                  <TableCell>{row.state}</TableCell>
-                  <TableCell>{row.comment_count}件</TableCell>
-                  <TableCell>{row.task_count}件</TableCell>
-                </TableRow>
+                  </StyledTableCell>
+                  <StyledTableCell>{row.author.display_name}</StyledTableCell>
+                  <StyledTableCell>{row.state}</StyledTableCell>
+                  <StyledTableCell>{row.comment_count}件</StyledTableCell>
+                  <StyledTableCell>{row.task_count}件</StyledTableCell>
+                </StyledTableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
       </main>
       <main className={styles.table}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }}>
+        <TableContainer
+          component={Paper}
+          sx={{ minWidth: 650, maxWidth: 1500, alignSelf: "center" }}
+        >
+          <Table>
             <TableHead>
-              <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell>コメント</TableCell>
-              </TableRow>
+              <StyledTableRow>
+                <StyledTableCell>ユーザ</StyledTableCell>
+                <StyledTableCell>コメント</StyledTableCell>
+                <StyledTableCell>リンク</StyledTableCell>
+                <StyledTableCell>コメント日時</StyledTableCell>
+              </StyledTableRow>
             </TableHead>
             <TableBody>
               {comment.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell>{row.id}</TableCell>
-                  <TableCell>{row.content.raw}</TableCell>
-                </TableRow>
+                <StyledTableRow key={row.id}>
+                  <StyledTableCell>{row.user.display_name}</StyledTableCell>
+                  <StyledTableCell>{row.content.raw}</StyledTableCell>
+                  <StyledTableCell>
+                    <Link href={row.links.html.href} underline="hover">
+                      {row.links.html.href}
+                    </Link>
+                  </StyledTableCell>
+                  <StyledTableCell>{row.created_on}</StyledTableCell>
+                </StyledTableRow>
               ))}
             </TableBody>
           </Table>
