@@ -7,6 +7,7 @@ export default async function handler(req, res) {
   params.append("client_id", `${process.env.CLIENT_ID}`);
   params.append("client_secret", `${process.env.CLIENT_SECRET}`);
 
+
   const url = `https://api.bitbucket.org/2.0/repositories/${process.env.WORKSPACE}/${process.env.REPOSITORY}/pullrequests`;
 
   const proxyAgent = new HttpsProxyAgent(`${process.env.PROXY}`);
@@ -15,7 +16,7 @@ export default async function handler(req, res) {
     {
       method: "POST",
       body: params,
-      agent: !`${process.env.PROXY}` ? proxyAgent : "",
+      agent: `${process.env.PROXY}` !== "undefined" ? proxyAgent : "",
     }
   );
 
@@ -28,7 +29,7 @@ export default async function handler(req, res) {
       Authorization: `Bearer ${token}`,
       Accept: "application/json",
     },
-    agent: !`${process.env.PROXY}` ? proxyAgent : "",
+    agent: `${process.env.PROXY}` !== "undefined" ? proxyAgent : "",
   });
 
   const pullRequests = await pullRequestsInfo.json();

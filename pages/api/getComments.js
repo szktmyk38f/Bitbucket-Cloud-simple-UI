@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     {
       method: "POST",
       body: params,
-      agent: !`${process.env.PROXY}` ? proxyAgent : "",
+      agent: `${process.env.PROXY}` !== "undefined" ? proxyAgent : "",
     }
   );
 
@@ -28,7 +28,7 @@ export default async function handler(req, res) {
       Authorization: `Bearer ${token}`,
       Accept: "application/json",
     },
-    agent: !`${process.env.PROXY}` ? proxyAgent : "",
+    agent: `${process.env.PROXY}` !== "undefined" ? proxyAgent : "",
   });
 
   const comments = await commentsInfo.json();
