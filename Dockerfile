@@ -1,12 +1,11 @@
 FROM node:19-alpine3.15 AS builder
 
-RUN apk add --no-cache libc6-compat
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED 1
 COPY . .
 
-RUN yarn install --frozen-lockfile
-RUN yarn build
+RUN npm ci
+RUN npm run build
 
 FROM node:19-alpine3.15 as runner
 
