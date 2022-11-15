@@ -8,7 +8,7 @@ Currently, it is in the testing phase and only includes pull requests and the ab
 First, please Clone this source code.
 
 ```bash
-git clone fetch-comments-bitbucket
+git clone Bitbucket-Cloud-simple-UI
 ```
 
 Next, rewrite the following settings in the .env file
