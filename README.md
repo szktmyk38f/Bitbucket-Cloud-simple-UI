@@ -1,5 +1,8 @@
 Provides a simple UI for Bitbucket Cloud.  
 
+![image](https://user-images.githubusercontent.com/40861943/201922963-791f9789-a8e0-4858-9737-2aea8c9c8c4c.png)
+
+
 ## Attention!!!
 **Currently, it is in the test creation phase. Significant changes may be made in the future.**
 
