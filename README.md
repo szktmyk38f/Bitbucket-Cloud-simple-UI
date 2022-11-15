@@ -1,5 +1,5 @@
 Provides a simple UI for Bitbucket Cloud.  
-Currently, it is in the testing phase and only includes pull requests and the ability to check each comment.
+**Currently, it is in the testing phase and only includes pull requests and the ability to check each comment.**
 
 ## Getting Started
 
@@ -54,4 +54,11 @@ The Key listed here is CLIENT_ID and Secret is CLIENT_SECRET. Enter these in the
 docker-compose up -d
 ```
 
+## Options
+### If you have a proxy setting
+Add a `PROXY` entry to the .env file.
 
+```bash
+#in .env file
+PROXY=http://<username>:<password>@<url>:<port>
+```
