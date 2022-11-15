@@ -62,3 +62,9 @@ Add a `PROXY` entry to the .env file.
 #in .env file
 PROXY=http://<username>:<password>@<url>:<port>
 ```
+
+## License
+- [MIT](https://github.com/szktmyk38f/Bitbucket-Cloud-simple-UI/blob/master/LICENSE)
+
+## Author
+- [szktmyk38f](https://github.com/szktmyk38f)
