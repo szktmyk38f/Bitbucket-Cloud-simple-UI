@@ -1,8 +1,7 @@
 Provides a simple UI for Bitbucket Cloud.  
-**Currently, it is in the testing phase and only includes pull requests and the ability to check each comment.**
 
 ## Attention!!!
-Currently, it is in the test creation phase. Significant changes may be made in the future.
+**Currently, it is in the test creation phase. Significant changes may be made in the future.**
 
 ## Getting Started
 
