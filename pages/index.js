@@ -95,20 +95,29 @@ export default function Home() {
               <TableBody>
                 {pullRequest.map((row) => (
                   <StyledTableRow key={row.id}>
-                    <StyledTableCell onClick={() => getComments(row.id)}>
-                      <Link underline="hover">{row.title}</Link>
+                    <StyledTableCell>
+                      <Link
+                        href={row.links.html.href}
+                        underline="hover"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {row.title}
+                      </Link>
                     </StyledTableCell>
                     <StyledTableCell>{row.author.display_name}</StyledTableCell>
                     <StyledTableCell>{row.state}</StyledTableCell>
-                    <StyledTableCell>
-                      {row.comment_count}
-                      {t.COUNT}
+                    <StyledTableCell onClick={() => getComments(row.id)}>
+                      <Link underline="hover">{row.comment_count}
+                        {t.COUNT}</Link>
                     </StyledTableCell>
                     <StyledTableCell>
                       {row.task_count}
                       {t.COUNT}
                     </StyledTableCell>
-                    <StyledTableCell>{row.created_on}</StyledTableCell>
+                    <StyledTableCell>
+                      {row.created_on}
+                    </StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
@@ -123,28 +132,22 @@ export default function Home() {
             <Table>
               <TableHead>
                 <StyledTableRow>
-                  <StyledTableCell>{t.USER}</StyledTableCell>
+                  <StyledTableCell sx={{ minWidth: 100 }}>{t.USER}</StyledTableCell>
                   <StyledTableCell>{t.COMMENT}</StyledTableCell>
-                  <StyledTableCell>{t.LINK}</StyledTableCell>
-                  <StyledTableCell>{t.CREATE}</StyledTableCell>
                 </StyledTableRow>
               </TableHead>
               <TableBody>
                 {comment.map((row) => (
                   <StyledTableRow key={row.id}>
                     <StyledTableCell>{row.user.display_name}</StyledTableCell>
-                    <StyledTableCell>{row.content.raw}</StyledTableCell>
-                    <StyledTableCell>
-                      <Link
-                        href={row.links.html.href}
-                        underline="hover"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {row.links.html.href}
-                      </Link>
-                    </StyledTableCell>
-                    <StyledTableCell>{row.created_on}</StyledTableCell>
+                    <StyledTableCell><Link
+                      href={row.links.html.href}
+                      underline="hover"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {row.content.raw}
+                    </Link></StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
