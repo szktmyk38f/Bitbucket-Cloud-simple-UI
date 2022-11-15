@@ -1,38 +1,57 @@
-## Note
-
-** in preparation **
-
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Provides a simple UI for Bitbucket Cloud.  
+Currently, it is in the testing phase and only includes pull requests and the ability to check each comment.
 
 ## Getting Started
 
-First, run the development server:
+### Clone the file locally and edit the configuration file
+
+First, please Clone this source code.
 
 ```bash
-npm run dev
-# or
-yarn dev
+git clone fetch-comments-bitbucket
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Next, rewrite the following settings in the .env file
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+| items         | details                                      | 
+| ------------- | -------------------------------------------- | 
+| CLIENT_ID     | The method of acquisition is described below | 
+| CLIENT_SECRET | The method of acquisition is described below | 
+| WORKSPACE     | Target workspace name                        | 
+| REPOSITORY    | Target repository name                       | 
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### How to get CLIENT_ID and CLIENT_SECRET
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Go to Bitbucket's OAuth consumer page. (url ex: `https://bitbucket.org/<workspace name>/workspace/settings/api`)
 
-## Learn More
+Click on "Add consumer".
 
-To learn more about Next.js, take a look at the following resources:
+![image](https://user-images.githubusercontent.com/40861943/201917437-fffd6832-5476-46e0-a580-1ee195fdc632.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The following must be set.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Name -> Any
+- Callback URL -> https://bitbucket.org
+- This is a private consumer -> Checked
 
-## Deploy on Vercel
+The permissions shall be set as follows.
+- Account -> Email Read
+- Repositories -> Read Write
+- Pull requests -> Read Write
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![image](https://user-images.githubusercontent.com/40861943/201917657-59def70a-81e5-4043-b021-03c7617f4877.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![image](https://user-images.githubusercontent.com/40861943/201918045-8aea0c3d-e0b6-4e90-858d-e27fed9866ed.png)
+
+Click Save.
+
+The Key listed here is CLIENT_ID and Secret is CLIENT_SECRET. Enter these in the .env file.
+
+![image](https://user-images.githubusercontent.com/40861943/201918925-421578fc-d898-44e3-944a-7f383c04d1b8.png)
+
+### Deploy
+```bash
+docker-compose up -d
+```
+
+
