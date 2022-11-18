@@ -8,5 +8,5 @@ services:
     volumes:
       - .:/app
     ports:
-      - 4000:4000
+      - 5000:3000
     restart: unless-stopped
